@@ -1,0 +1,7 @@
+// Теги ["Measurement", "Temperature"] роблять цей Item частиною семантичної моделі
+Number CoAP_Sensor_Value "Температура [%.1f °C]" <temperature> ["Measurement", "Temperature"] { channel="http:url:coap_sim:temperature" }
+
+// Сюди запишемо наш семантичний паспорт пристрою
+String WoT_Thing_Description "W3C TD (JSON-LD)" ["Status"]
+
+Switch Send_To_HTTP "Force Sync (Semantic)" ["Control"]

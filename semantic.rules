@@ -1,0 +1,26 @@
+rule "Semantic WoT Generator"
+when
+    Item CoAP_Sensor_Value changed or
+    Item Send_To_HTTP received command ON
+then
+    // 1. Генеруємо паспорт (JSON-LD)
+    val String td = '{
+        "@context": "https://www.w3.org/2019/wot/td/v1",
+        "title": "Semantic Thermometer",
+        "properties": {
+            "temp": { "type": "number", "unit": "celsius" }
+        }
+    }'
+    
+    // 2. Оновлюємо Item, щоб бачити цей текст в Basic UI
+    WoT_Thing_Description.postUpdate(td)
+    
+    // 3. ВИПРАВЛЕНА ВІДПРАВКА (спеціально для OpenHAB 4)
+    // Використовуємо загальну команду замість специфічного Action
+    sendHttpPostRequest("https://httpbin.org/post", "application/json", td, 5000)
+    
+    logInfo("Semantic", "Згенеровано та успішно відправлено WoT Thing Description!")
+    
+    // Повертаємо кнопку у вимкнений стан
+    if(Send_To_HTTP.state == ON) Send_To_HTTP.postUpdate(OFF)
+end

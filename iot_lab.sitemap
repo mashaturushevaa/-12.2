@@ -1,0 +1,7 @@
+sitemap iot_lab label="IoT Semantic Gateway" {
+    Frame label="Семантичні дані (W3C WoT)" {
+        Text item=CoAP_Sensor_Value icon="temperature"
+        Text item=WoT_Thing_Description label="Паспорт пристрою (JSON-LD)"
+        Switch item=Send_To_HTTP
+    }
+}
